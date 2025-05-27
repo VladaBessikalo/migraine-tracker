@@ -1,6 +1,7 @@
 # Development Plan
 
 🔍 1. Learning Goals: 
+
 🧠 TypeScript (Refresh)
 Use type-safe components and props
 
@@ -8,12 +9,14 @@ Define interfaces for data entries
 
 Use enums for pain levels
 
+
 📦 Redux (Deepen)
 Use createSlice, configureStore
 
 Local state → Redux (entries, filters)
 
 Optionally: persist with redux-persist
+
 
 ♿ Accessibility
 Use semantic HTML
@@ -30,6 +33,7 @@ react-aria
 
 axe-core (for accessibility audits)
 
+
 📅 Calendar Integration
 Use something like:
 
@@ -38,6 +42,7 @@ react-big-calendar (well-supported)
 Or fullcalendar
 
 You’ll need to connect it to your state and events.
+
 
 📱 PWA Basics
 Add manifest.json
@@ -51,6 +56,9 @@ Add install banner prompt
 Install PWA tooling:
 
 npm install vite-plugin-pwa
+
+
+🚀 Tailwind - new CSS framework (installed)
 
 
 📁 2. Plan Minimal Viable Features (MVP)
