@@ -1,10 +1,9 @@
 import dayjs from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
-
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+
 import { Box } from "@mui/material";
 
 dayjs.extend(updateLocale);
@@ -19,12 +18,11 @@ export default function Calendar() {
         display="flex"
         flexDirection="column"
         alignItems="center"
-        width="100%"
         maxWidth="400px"
         margin="0 auto"
         p={2}
       >
-        <StaticDatePicker defaultValue={dayjs(Date())} />
+          <MobileDatePicker defaultValue={dayjs()} format="DD/MM/YYYY" />
       </Box>
     </LocalizationProvider>
   );

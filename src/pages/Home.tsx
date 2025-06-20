@@ -7,7 +7,8 @@ export default function Home() {
       <h1>Migraine Tracker</h1>
       <>
         <Typography>Hi Vlada!</Typography>
-        <Calendar></Calendar>
+        <Typography> Add your migraine episode </Typography>
+        <Calendar />
       </>
     </>
   );
