@@ -58,7 +58,6 @@ Install PWA tooling:
 npm install vite-plugin-pwa
 
 
-🚀 Tailwind - new CSS framework (installed)
 
 
 📁 2. Plan Minimal Viable Features (MVP)
