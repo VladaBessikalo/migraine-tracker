@@ -1,10 +1,14 @@
-import './App.css'
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import Home from './pages/Home.tsx';
 
 function App() {
 
   return (
       <>
-        <h1>Migraine Tracker</h1>
+      <Routes>
+        <Route path='/' element={<Home />}/>
+      </Routes>
       </>
   )
 }
