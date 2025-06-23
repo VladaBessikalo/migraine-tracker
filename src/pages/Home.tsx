@@ -1,15 +1,159 @@
-import { Typography } from "@mui/material";
-import Calendar from "../components/calendar";
+// import { Typography } from "@mui/material";
+// import Calendar from "../components/calendar";
 
-export default function Home() {
+// export default function Home() {
+//   return (
+//     <>
+//       <h1>Migraine Tracker</h1>
+//       <>
+//         <Typography>Hi Vlada!</Typography>
+//         <Typography> Add your migraine episode </Typography>
+//         <Calendar />
+//       </>
+//     </>
+//   );
+// }
+
+import React, { useState } from "react";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  FormControlLabel,
+  Checkbox,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  DatePicker,
+  TimePicker,
+  LocalizationProvider,
+  TimeField,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import updateLocale from "dayjs/plugin/updateLocale";
+import type { MigraineEntry } from "../interfaces/migraineEntry";
+
+dayjs.extend(updateLocale);
+dayjs.updateLocale("en", {
+  weekStart: 1,
+});
+
+const MainPage = () => {
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs());
+  const [isOngoing, setIsOngoing] = useState(false);
+  const [trigger, setTrigger] = useState("");
+  const [medication, setMedication] = useState("");
+  const [symptoms, setSymptoms] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSubmit = () => {
+    const migraineData: MigraineEntry = {
+      date: date?.format() || '',
+      startTime: startTime?.format()  || '',
+      endTime: isOngoing ? "Ongoing" : endTime?.format() || '',
+      trigger,
+      medication,
+      symptoms,
+      notes,
+    };
+    console.log("Migraine Log:", migraineData);
+    handleClose();
+  };
+
   return (
     <>
       <h1>Migraine Tracker</h1>
-      <>
-        <Typography>Hi Vlada!</Typography>
-        <Typography> Add your migraine episode </Typography>
-        <Calendar />
-      </>
+      <Typography>Hi Vlada!</Typography>
+      <Typography> Add your migraine episode </Typography>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Stack spacing={2} padding={2}>
+          <Button variant="contained" fullWidth onClick={handleOpen}>
+            Log Migraine
+          </Button>
+
+          <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+            <DialogTitle>Log a Migraine</DialogTitle>
+            <DialogContent>
+              <Stack spacing={2} mt={1}>
+                <DatePicker
+                  label="Date"
+                  value={date}
+                  onChange={setDate}
+                  format="DD/MM/YYYY"
+                />
+                <TimeField
+                  label="Start Time"
+                  value={startTime}
+                  onChange={setStartTime}
+                  format="HH:mm"
+                />
+                {!isOngoing && (
+                  <TimeField
+                    label="End Time"
+                    value={endTime}
+                    onChange={setEndTime}
+                    format="HH:mm"
+                  />
+                )}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isOngoing}
+                      onChange={(e) => setIsOngoing(e.target.checked)}
+                    />
+                  }
+                  label="Still ongoing"
+                />
+                <TextField
+                  label="Possible Reason / Trigger"
+                  value={trigger}
+                  onChange={(e) => setTrigger(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="Medication"
+                  value={medication}
+                  onChange={(e) => setMedication(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="Symptoms"
+                  value={symptoms}
+                  onChange={(e) => setSymptoms(e.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="Additional Info"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  multiline
+                  rows={3}
+                  fullWidth
+                />
+              </Stack>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+              <Button onClick={handleSubmit} variant="contained">
+                Save
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Stack>
+      </LocalizationProvider>
     </>
   );
-}
+};
+
+export default MainPage;
