@@ -1,20 +1,4 @@
-// import { Typography } from "@mui/material";
-// import Calendar from "../components/calendar";
-
-// export default function Home() {
-//   return (
-//     <>
-//       <h1>Migraine Tracker</h1>
-//       <>
-//         <Typography>Hi Vlada!</Typography>
-//         <Typography> Add your migraine episode </Typography>
-//         <Calendar />
-//       </>
-//     </>
-//   );
-// }
-
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -31,7 +15,6 @@ import {
 } from "@mui/material";
 import {
   DatePicker,
-  TimePicker,
   LocalizationProvider,
   TimeField,
 } from "@mui/x-date-pickers";
@@ -122,7 +105,7 @@ const MainPage = () => {
                 <Typography gutterBottom>Pain Intensity</Typography>
                 <Slider
                   value={painIntensity}
-                  onChange={(e, value) => setPainIntensity(value as number)}
+                  onChange={(_, value) => setPainIntensity(value as number)}
                   aria-label="Pain Intensity"
                   valueLabelDisplay="on"
                   step={1}
@@ -135,7 +118,7 @@ const MainPage = () => {
                   freeSolo
                   options={["stress", "lack of sleep"]}
                   value={triggers}
-                  onChange={(event, newValue) => setTriggers(newValue)}
+                  onChange={(_, newValue) => setTriggers(newValue)}
                   renderInput={(params) => (
                     <TextField {...params} label="Triggers" fullWidth />
                   )}
@@ -145,7 +128,7 @@ const MainPage = () => {
                   freeSolo
                   options={["paracetomol", "ibuprofen"]}
                   value={medication}
-                  onChange={(event, newValue) => setMedication(newValue)}
+                  onChange={(_, newValue) => setMedication(newValue)}
                   renderInput={(params) => (
                     <TextField {...params} label="Medication" fullWidth />
                   )}
@@ -155,7 +138,7 @@ const MainPage = () => {
                   freeSolo
                   options={["headache", "nausea", "aura"]}
                   value={symptoms}
-                  onChange={(event, newValue) => setSymptoms(newValue)}
+                  onChange={(_, newValue) => setSymptoms(newValue)}
                   renderInput={(params) => (
                     <TextField {...params} label="Symptoms" fullWidth />
                   )}
