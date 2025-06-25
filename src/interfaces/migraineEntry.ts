@@ -4,8 +4,8 @@ export interface MigraineEntry {
     startTime: string;
     endTime: string | "Ongoing";
     painIntensity: number;
-    trigger: string; 
-    medication: string;
-    symptoms: string;
+    triggers: string[]; 
+    medication: string[];
+    symptoms: string[];
     notes: string;
 }

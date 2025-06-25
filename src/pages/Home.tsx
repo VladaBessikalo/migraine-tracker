@@ -27,6 +27,7 @@ import {
   Stack,
   Typography,
   Slider,
+  Autocomplete,
 } from "@mui/material";
 import {
   DatePicker,
@@ -51,9 +52,9 @@ const MainPage = () => {
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs());
   const [isOngoing, setIsOngoing] = useState(false);
   const [painIntensity, setPainIntensity] = useState<number>(5);
-  const [trigger, setTrigger] = useState("");
-  const [medication, setMedication] = useState("");
-  const [symptoms, setSymptoms] = useState("");
+  const [triggers, setTriggers] = useState<string[]>([]);
+  const [medication, setMedication] = useState<string[]>([]);
+  const [symptoms, setSymptoms] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
 
   const handleOpen = () => setOpen(true);
@@ -65,7 +66,7 @@ const MainPage = () => {
       startTime: startTime?.format() || "",
       endTime: isOngoing ? "Ongoing" : endTime?.format() || "",
       painIntensity,
-      trigger,
+      triggers,
       medication,
       symptoms,
       notes,
@@ -129,23 +130,35 @@ const MainPage = () => {
                   min={1}
                   max={10}
                 />
-                <TextField
-                  label="Possible Reason / Trigger"
-                  value={trigger}
-                  onChange={(e) => setTrigger(e.target.value)}
-                  fullWidth
+                <Autocomplete
+                  multiple
+                  freeSolo
+                  options={["stress", "lack of sleep"]}
+                  value={triggers}
+                  onChange={(event, newValue) => setTriggers(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Triggers" fullWidth />
+                  )}
                 />
-                <TextField
-                  label="Medication"
+                <Autocomplete
+                  multiple
+                  freeSolo
+                  options={["paracetomol", "ibuprofen"]}
                   value={medication}
-                  onChange={(e) => setMedication(e.target.value)}
-                  fullWidth
+                  onChange={(event, newValue) => setMedication(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Medication" fullWidth />
+                  )}
                 />
-                <TextField
-                  label="Symptoms"
+                <Autocomplete
+                  multiple
+                  freeSolo
+                  options={["headache", "nausea", "aura"]}
                   value={symptoms}
-                  onChange={(e) => setSymptoms(e.target.value)}
-                  fullWidth
+                  onChange={(event, newValue) => setSymptoms(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Symptoms" fullWidth />
+                  )}
                 />
                 <TextField
                   label="Additional Info"
