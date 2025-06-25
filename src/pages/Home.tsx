@@ -26,6 +26,7 @@ import {
   Checkbox,
   Stack,
   Typography,
+  Slider,
 } from "@mui/material";
 import {
   DatePicker,
@@ -49,6 +50,7 @@ const MainPage = () => {
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs());
   const [isOngoing, setIsOngoing] = useState(false);
+  const [painIntensity, setPainIntensity] = useState<number>(5);
   const [trigger, setTrigger] = useState("");
   const [medication, setMedication] = useState("");
   const [symptoms, setSymptoms] = useState("");
@@ -59,9 +61,10 @@ const MainPage = () => {
 
   const handleSubmit = () => {
     const migraineData: MigraineEntry = {
-      date: date?.format() || '',
-      startTime: startTime?.format()  || '',
-      endTime: isOngoing ? "Ongoing" : endTime?.format() || '',
+      date: date?.format() || "",
+      startTime: startTime?.format() || "",
+      endTime: isOngoing ? "Ongoing" : endTime?.format() || "",
+      painIntensity,
       trigger,
       medication,
       symptoms,
@@ -114,6 +117,17 @@ const MainPage = () => {
                     />
                   }
                   label="Still ongoing"
+                />
+                <Typography gutterBottom>Pain Intensity</Typography>
+                <Slider
+                  value={painIntensity}
+                  onChange={(e, value) => setPainIntensity(value as number)}
+                  aria-label="Pain Intensity"
+                  valueLabelDisplay="on"
+                  step={1}
+                  marks
+                  min={1}
+                  max={10}
                 />
                 <TextField
                   label="Possible Reason / Trigger"
