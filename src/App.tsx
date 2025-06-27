@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home.tsx';
+import AuthPage from './pages/AuthPage.tsx';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
       <>
       <Routes>
         <Route path='/' element={<Home />}/>
+        <Route path='/auth' element={<AuthPage/>}/>
       </Routes>
       </>
   )
