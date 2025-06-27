@@ -1,0 +1,55 @@
+User - entry point.
+Every user has their collections. 
+1) dates of migraine one document should contain this info:  
+MigraineEntry {
+    date: string;
+    startTime: string;
+    endTime: string | "Ongoing";
+    painIntensity: number;
+    triggers: string; 
+    medication: string;
+    symptoms: string;
+    notes: string;
+}
+
+2) when user register they have possibility to add their own triggers, medication, symptoms to preexisting ones. So it should be initially arrays/documents with triggers(alcohol, weather changing, lack of the sleep), medication (paracetomol, ibuprofen), symptoms (headache, nausea, aura, light sensitivity). And when user add a new migraine episode and, in the triggers for instance there is no "stress"-trigger and they want to add this one, user can write this trigger and it also automatically will be added to triggers document. So next time , whe user add new migraine eposode, they can chose from triggers - (alcohol, weather changing, lack of the sleep, stress).
+
+
+users (collection)
+  └── {userId} (document)
+        ├── profile (document)
+        ├── migraineEntries (subcollection)
+        │     └── {entryId} (document)
+        ├── customTriggers (subcollection)
+        │     └── {triggerId} (document)
+        ├── customMedications (subcollection)
+        │     └── {medicationId} (document)
+        └── customSymptoms (subcollection)
+              └── {symptomId} (document)
+
+
+users/{userId}/profile
+{
+  displayName: string;
+  email: string;
+  createdAt: Timestamp;
+}
+
+users/{userId}/migraineEntries/{entryId}
+MigraineEntry {
+  date: string; // e.g. "2025-06-25"
+  startTime: string; // "08:00"
+  endTime: string | "Ongoing";
+  painIntensity: number; // 1-10 scale
+  triggers: string[]; 
+  medication: string[]; 
+  symptoms: string[]; 
+  notes: string;
+}
+
+users/{userId}/customTriggers/{triggerId}
+interface CustomTrigger {
+  name: string; // e.g., "Stress"
+  addedAt: Timestamp;
+}
+
