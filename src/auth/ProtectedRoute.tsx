@@ -1,4 +1,3 @@
-// src/auth/ProtectedRoute.tsx
 import { useEffect, useState, type ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
