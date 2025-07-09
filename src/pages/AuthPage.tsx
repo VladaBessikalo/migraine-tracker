@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   TextField,
@@ -14,7 +14,7 @@ import {
 } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { useDispatch } from "react-redux";
-import { setUser, setLoading, setError} from "../store/slices/authSlice"
+import { setUser, setLoading, setError } from "../store/slices/authSlice";
 
 const AuthPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -28,21 +28,22 @@ const AuthPage = () => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
-      setLocalError('');
+      setLocalError("");
 
       const userCredential = isRegistering
         ? await createUserWithEmailAndPassword(auth, email, password)
         : await signInWithEmailAndPassword(auth, email, password);
-        
+
       const user = userCredential.user;
 
-            dispatch(
+      dispatch(
         setUser({
           uid: user.uid,
           email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-        }));
+        })
+      );
     } catch (err: any) {
       setLocalError(err.message);
       dispatch(setError(err.message));
@@ -52,7 +53,7 @@ const AuthPage = () => {
   };
 
   const handleGoogleSignIn = async () => {
-try {
+    try {
       dispatch(setLoading(true));
       dispatch(setError(null));
       setLocalError("");
@@ -76,8 +77,13 @@ try {
     }
   };
 
- return (
-    <Stack alignItems="center" justifyContent="center" height="100vh" spacing={2}>
+  return (
+    <Stack
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+      spacing={2}
+    >
       <Paper elevation={3} sx={{ padding: 4, width: 320 }}>
         <Typography variant="h5" align="center" gutterBottom>
           {isRegistering ? "Sign Up" : "Login"}
