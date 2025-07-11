@@ -12,3 +12,5 @@ createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </Provider>
 );
+
+console.log(store.getState())
