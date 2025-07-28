@@ -17,6 +17,7 @@ import { auth, provider } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser, setLoading, setError } from "../store/slices/authSlice";
+import { useAuth } from "../hooks/useAuth";
 import type { RootState } from "../store";
 
 const AuthPage = () => {
@@ -26,8 +27,9 @@ const AuthPage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading, error, user } = useSelector((state: RootState) => state.auth);
 
 
   const handleAuth = useCallback( async () => {
@@ -109,6 +111,44 @@ const AuthPage = () => {
       dispatch(setError(null));
     }
   }, [error, dispatch]);
+
+  // Check if user is already authenticated
+  if (user) {
+    return (
+      <Stack
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        spacing={2}
+      >
+        <Paper elevation={3} sx={{ padding: 4, width: 320 }}>
+          <Typography variant="h6" align="center" gutterBottom>
+            Welcome back!
+          </Typography>
+          <Typography variant="body2" color="text.secondary" align="center" mb={2}>
+            You're logged in as {user.email}
+          </Typography>
+          
+          <Stack spacing={2}>
+            <Button 
+              variant="contained" 
+              onClick={() => navigate("/")}
+              fullWidth
+            >
+              Go to Home
+            </Button>
+            <Button 
+              variant="outlined" 
+              onClick={logout}
+              fullWidth
+            >
+              Switch Account
+            </Button>
+          </Stack>
+        </Paper>
+      </Stack>
+    );
+  }
 
   return (
     <Stack
