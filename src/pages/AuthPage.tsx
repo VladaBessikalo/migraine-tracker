@@ -31,8 +31,8 @@ const AuthPage = () => {
 
   const { loading, error, user } = useSelector((state: RootState) => state.auth);
 
-
-  const handleAuth = useCallback( async () => {
+  // ALL HOOKS MUST BE CALLED BEFORE ANY EARLY RETURNS
+  const handleAuth = useCallback(async () => {
     if (!email.trim() || !password.trim()) {
       dispatch(setError("Email and password are required"));
       return;
@@ -59,7 +59,6 @@ const AuthPage = () => {
         })
       );
       
-      // Navigate to home page after successful authentication
       navigate("/");
     } catch (err: any) {
       dispatch(setError(err.message));
@@ -112,7 +111,6 @@ const AuthPage = () => {
     }
   }, [error, dispatch]);
 
-  // Check if user is already authenticated
   if (user) {
     return (
       <Stack
