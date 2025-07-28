@@ -31,7 +31,6 @@ const AuthPage = () => {
 
   const { loading, error, user } = useSelector((state: RootState) => state.auth);
 
-  // ALL HOOKS MUST BE CALLED BEFORE ANY EARLY RETURNS
   const handleAuth = useCallback(async () => {
     if (!email.trim() || !password.trim()) {
       dispatch(setError("Email and password are required"));
