@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Button,
   TextField,
@@ -6,6 +6,7 @@ import {
   Stack,
   Paper,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import {
   signInWithEmailAndPassword,
@@ -13,28 +14,39 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth, provider } from "../firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setUser, setLoading, setError } from "../store/slices/authSlice";
+import type { RootState } from "../store";
 
 const AuthPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [localError, setLocalError] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleAuth = async () => {
+  const { loading, error } = useSelector((state: RootState) => state.auth);
+
+
+  const handleAuth = useCallback( async () => {
+    if (!email.trim() || !password.trim()) {
+      dispatch(setError("Email and password are required"));
+      return;
+    }
+    
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
-      setLocalError("");
 
       const userCredential = isRegistering
         ? await createUserWithEmailAndPassword(auth, email, password)
         : await signInWithEmailAndPassword(auth, email, password);
 
       const user = userCredential.user;
+
+      console.log("user", user)
 
       dispatch(
         setUser({
@@ -44,19 +56,20 @@ const AuthPage = () => {
           photoURL: user.photoURL,
         })
       );
+      
+      // Navigate to home page after successful authentication
+      navigate("/");
     } catch (err: any) {
-      setLocalError(err.message);
       dispatch(setError(err.message));
     } finally {
       dispatch(setLoading(false));
     }
-  };
+  }, [dispatch, email, password, isRegistering, navigate]);
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = useCallback(async () => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
-      setLocalError("");
 
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -69,13 +82,33 @@ const AuthPage = () => {
           photoURL: user.photoURL,
         })
       );
+      
+      navigate("/");
     } catch (err: any) {
-      setLocalError(err.message);
       dispatch(setError(err.message));
     } finally {
       dispatch(setLoading(false));
     }
-  };
+  }, [dispatch, navigate]);
+
+  const handleToggleMode = useCallback(() => {
+    setIsRegistering((prev) => !prev);
+    dispatch(setError(null));
+  }, [dispatch]);
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error) {
+      dispatch(setError(null));
+    }
+  }, [error, dispatch]);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (error) {
+      dispatch(setError(null));
+    }
+  }, [error, dispatch]);
 
   return (
     <Stack
@@ -94,23 +127,36 @@ const AuthPage = () => {
             label="Email"
             value={email}
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
+            disabled={loading}
             fullWidth
           />
           <TextField
             label="Password"
             value={password}
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
+            disabled={loading}
             fullWidth
           />
-          {localError && <Typography color="error">{localError}</Typography>}
+          {error && <Typography color="error">{error}</Typography>}
 
-          <Button variant="contained" onClick={handleAuth} fullWidth>
-            {isRegistering ? "Sign Up" : "Login"}
+          <Button 
+            variant="contained" 
+            onClick={handleAuth} 
+            disabled={loading || !email.trim() || !password.trim()}
+            fullWidth
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) :
+              isRegistering ? "Sign Up" : "Login"}
           </Button>
 
-          <Button onClick={() => setIsRegistering((prev) => !prev)} fullWidth>
+          <Button 
+            onClick={handleToggleMode} 
+            disabled={loading} 
+            fullWidth>
             {isRegistering
               ? "Already have an account? Login"
               : "New user? Sign Up"}
@@ -118,8 +164,12 @@ const AuthPage = () => {
 
           <Divider>or</Divider>
 
-          <Button onClick={handleGoogleSignIn} variant="outlined" fullWidth>
-            Sign in with Google
+          <Button 
+            onClick={handleGoogleSignIn}
+            variant="outlined" 
+            disabled={loading}
+            fullWidth>
+                  Sign in with Google
           </Button>
         </Stack>
       </Paper>
