@@ -60,7 +60,6 @@ const MainPage = () => {
 
   return (
     <>
-      <h1>Migraine Tracker</h1>
       <Typography>Hi Vlada!</Typography>
       <Typography> Add your migraine episode </Typography>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
