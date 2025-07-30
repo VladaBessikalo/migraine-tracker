@@ -8,7 +8,7 @@ const Header = () => {
   const { logout } = useAuth();
 
   return (
-    <AppBar>
+    <AppBar sx={{ backgroundColor: "#328e6e" }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Migraine Tracker
