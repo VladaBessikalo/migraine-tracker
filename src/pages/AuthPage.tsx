@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser, setLoading, setError } from "../store/slices/authSlice";
 import { useAuth } from "../hooks/useAuth";
-import type { RootState } from "../store";
+import type { RootState } from "../store/store";
 
 const AuthPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
