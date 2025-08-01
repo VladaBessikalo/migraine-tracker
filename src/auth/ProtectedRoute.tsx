@@ -13,11 +13,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (loading) {
     return (
-      <Stack
-        alignItems="center"
-        justifyContent="center"
-        height="100vh"
-      >
+      <Stack alignItems="center" justifyContent="center" height="100vh">
         <CircularProgress />
       </Stack>
     );

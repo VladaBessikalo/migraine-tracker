@@ -7,6 +7,7 @@ import { useAuth } from "./hooks/useAuth.ts";
 import { Box, Container, CssBaseline, ThemeProvider } from "@mui/material";
 import Header from "./components/Header.tsx";
 import { theme } from "./theme/theme.tsx";
+import PageWrapper from "./pages/PageWrapper.tsx";
 
 function App() {
   useAuth();
@@ -22,28 +23,29 @@ function App() {
         }}
       >
         <Header />
-        <Container
-          maxWidth="lg"
-          component="main"
-          sx={{
-            mt: 8,
-            flexGrow: 1,
-            pt: 5,
-            pb: 3,
-          }}
-        >
-          <Routes>
-            <Route path="/auth" element={<AuthPage />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </Container>
+        <PageWrapper>
+          <Container
+            maxWidth="lg"
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pt: 2,
+              pb: 3,
+            }}
+          >
+            <Routes>
+              <Route path="/auth" element={<AuthPage />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </Container>
+        </PageWrapper>
       </Box>
     </ThemeProvider>
   );
