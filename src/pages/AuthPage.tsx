@@ -29,14 +29,16 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  const { loading, error, user } = useSelector((state: RootState) => state.auth);
+  const { loading, error, user } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const handleAuth = useCallback(async () => {
     if (!email.trim() || !password.trim()) {
       dispatch(setError("Email and password are required"));
       return;
     }
-    
+
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
@@ -47,7 +49,7 @@ const AuthPage = () => {
 
       const user = userCredential.user;
 
-      console.log("user", user)
+      console.log("user", user);
 
       dispatch(
         setUser({
@@ -57,7 +59,7 @@ const AuthPage = () => {
           photoURL: user.photoURL,
         })
       );
-      
+
       navigate("/");
     } catch (err: any) {
       dispatch(setError(err.message));
@@ -82,7 +84,7 @@ const AuthPage = () => {
           photoURL: user.photoURL,
         })
       );
-      
+
       navigate("/");
     } catch (err: any) {
       dispatch(setError(err.message));
@@ -96,49 +98,54 @@ const AuthPage = () => {
     dispatch(setError(null));
   }, [dispatch]);
 
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    if (error) {
-      dispatch(setError(null));
-    }
-  }, [error, dispatch]);
+  const handleEmailChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(e.target.value);
+      if (error) {
+        dispatch(setError(null));
+      }
+    },
+    [error, dispatch]
+  );
 
-  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    if (error) {
-      dispatch(setError(null));
-    }
-  }, [error, dispatch]);
+  const handlePasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
+      if (error) {
+        dispatch(setError(null));
+      }
+    },
+    [error, dispatch]
+  );
 
   if (user) {
     return (
       <Stack
         alignItems="center"
         justifyContent="center"
-        height="100vh"
+        sx={{
+          height: "100%",
+        }}
         spacing={2}
       >
         <Paper elevation={3} sx={{ padding: 4, width: 320 }}>
           <Typography variant="h6" align="center" gutterBottom>
             Welcome back!
           </Typography>
-          <Typography variant="body2" color="text.secondary" align="center" mb={2}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            align="center"
+            mb={2}
+          >
             You're logged in as {user.email}
           </Typography>
-          
+
           <Stack spacing={2}>
-            <Button 
-              variant="contained" 
-              onClick={() => navigate("/")}
-              fullWidth
-            >
+            <Button variant="contained" onClick={() => navigate("/")} fullWidth>
               Go to Home
             </Button>
-            <Button 
-              variant="outlined" 
-              onClick={logout}
-              fullWidth
-            >
+            <Button variant="outlined" onClick={logout} fullWidth>
               Switch Account
             </Button>
           </Stack>
@@ -151,7 +158,9 @@ const AuthPage = () => {
     <Stack
       alignItems="center"
       justifyContent="center"
-      height="100vh"
+      sx={{
+        height: "100%",
+      }}
       spacing={2}
     >
       <Paper elevation={3} sx={{ padding: 4, width: 320 }}>
@@ -178,22 +187,22 @@ const AuthPage = () => {
           />
           {error && <Typography color="error">{error}</Typography>}
 
-          <Button 
-            variant="contained" 
-            onClick={handleAuth} 
+          <Button
+            variant="contained"
+            onClick={handleAuth}
             disabled={loading || !email.trim() || !password.trim()}
             fullWidth
           >
             {loading ? (
               <CircularProgress size={24} color="inherit" />
-            ) :
-              isRegistering ? "Sign Up" : "Login"}
+            ) : isRegistering ? (
+              "Sign Up"
+            ) : (
+              "Login"
+            )}
           </Button>
 
-          <Button 
-            onClick={handleToggleMode} 
-            disabled={loading} 
-            fullWidth>
+          <Button onClick={handleToggleMode} disabled={loading} fullWidth>
             {isRegistering
               ? "Already have an account? Login"
               : "New user? Sign Up"}
@@ -201,12 +210,13 @@ const AuthPage = () => {
 
           <Divider>or</Divider>
 
-          <Button 
+          <Button
             onClick={handleGoogleSignIn}
-            variant="outlined" 
+            variant="outlined"
             disabled={loading}
-            fullWidth>
-                  Sign in with Google
+            fullWidth
+          >
+            Sign in with Google
           </Button>
         </Stack>
       </Paper>

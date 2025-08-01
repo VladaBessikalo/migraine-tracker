@@ -31,6 +31,9 @@ function App() {
               flexGrow: 1,
               pt: 2,
               pb: 3,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
             <Routes>
