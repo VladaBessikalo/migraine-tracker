@@ -22,6 +22,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
 import type { MigraineEntry } from "../interfaces/migraineEntry";
+import { useMigraines } from "../hooks/useMigraines";
 
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
@@ -45,6 +46,8 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
   const [symptoms, setSymptoms] = useState<string[]>([]);
   const [notes, setNotes] = useState("");
 
+  const { addMigraineEntry, loading: saving, error } = useMigraines();
+
   const resetForm = () => {
     setDate(dayjs());
     setStartTime(dayjs());
@@ -62,7 +65,7 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
     onClose();
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const migraineData: MigraineEntry = {
       date: date?.format() || "",
       startTime: startTime?.format() || "",
@@ -73,8 +76,14 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
       symptoms,
       notes,
     };
-    onSubmit(migraineData);
-    handleClose();
+
+    try {
+      await addMigraineEntry(migraineData);
+      onSubmit(migraineData);
+      handleClose();
+    } catch (err) {
+      console.error("Failed to save migraine entry:", err); // add an error message to the user
+    }
   };
 
   const handleOngoingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -205,11 +214,18 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} variant="contained">
-            Save
+          <Button onClick={handleClose} disabled={saving}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} variant="contained" disabled={saving}>
+            {saving ? "Saving..." : "Save"}
           </Button>
         </DialogActions>
+        {error && (
+          <Typography color="error" sx={{ p: 2 }}>
+            Error: {error}
+          </Typography>
+        )}
       </Dialog>
     </LocalizationProvider>
   );
