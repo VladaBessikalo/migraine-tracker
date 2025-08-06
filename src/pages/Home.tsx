@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import MigraineForm from "../components/MigraineForm";
 import type { MigraineEntry } from "../interfaces/migraineEntry";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 const MainPage = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
+
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -16,7 +20,7 @@ const MainPage = () => {
 
   return (
     <>
-      <Typography>Hi Vlada!</Typography>
+      <Typography>Hi {user?.displayName || user?.email}!</Typography>
       <Typography> Add your migraine episode </Typography>
       <Stack spacing={2} padding={2}>
         <Button variant="contained" fullWidth onClick={handleOpen}>
