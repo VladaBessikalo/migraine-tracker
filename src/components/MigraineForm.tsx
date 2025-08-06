@@ -77,6 +77,30 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
     handleClose();
   };
 
+  const handleOngoingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsOngoing(e.target.checked);
+  };
+
+  const handlePainIntensity = (_: any, newValue: number) => {
+    setPainIntensity(newValue);
+  };
+
+  const handleTriggers = (_: any, newValue: string[]) => {
+    setTriggers(newValue);
+  };
+
+  const handleMedication = (_: any, newValue: string[]) => {
+    setMedication(newValue);
+  };
+
+  const handleSymptoms = (_: any, newValue: string[]) => {
+    setSymptoms(newValue);
+  };
+
+  const handleNotesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNotes(e.target.value);
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -105,17 +129,14 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
             )}
             <FormControlLabel
               control={
-                <Checkbox
-                  checked={isOngoing}
-                  onChange={(e) => setIsOngoing(e.target.checked)}
-                />
+                <Checkbox checked={isOngoing} onChange={handleOngoingChange} />
               }
               label="Still ongoing"
             />
             <Typography gutterBottom>Pain Intensity</Typography>
             <Slider
               value={painIntensity}
-              onChange={(_, value) => setPainIntensity(value as number)}
+              onChange={handlePainIntensity}
               aria-label="Pain Intensity"
               valueLabelDisplay="on"
               step={1}
@@ -135,7 +156,7 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
                 "bright lights",
               ]}
               value={triggers}
-              onChange={(_, newValue) => setTriggers(newValue)}
+              onChange={handleTriggers}
               renderInput={(params) => (
                 <TextField {...params} label="Triggers" fullWidth />
               )}
@@ -151,7 +172,7 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
                 "naproxen",
               ]}
               value={medication}
-              onChange={(_, newValue) => setMedication(newValue)}
+              onChange={handleMedication}
               renderInput={(params) => (
                 <TextField {...params} label="Medication" fullWidth />
               )}
@@ -168,7 +189,7 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
                 "vomiting",
               ]}
               value={symptoms}
-              onChange={(_, newValue) => setSymptoms(newValue)}
+              onChange={handleSymptoms}
               renderInput={(params) => (
                 <TextField {...params} label="Symptoms" fullWidth />
               )}
@@ -176,7 +197,7 @@ const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
             <TextField
               label="Additional Info"
               value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              onChange={handleNotesChange}
               multiline
               rows={3}
               fullWidth
