@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import MigraineForm from "../components/MigraineForm";
-import type { MigraineEntry } from "../interfaces/migraineEntry";
+import type { MigraineEntry } from "../interfaces";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 

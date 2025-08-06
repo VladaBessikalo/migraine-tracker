@@ -21,19 +21,13 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import updateLocale from "dayjs/plugin/updateLocale";
-import type { MigraineEntry } from "../interfaces/migraineEntry";
+import type { MigraineEntry, MigraineFormProps } from "../interfaces";
 import { useMigraines } from "../hooks/useMigraines";
 
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
   weekStart: 1,
 });
-
-interface MigraineFormProps {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: MigraineEntry) => void;
-}
 
 const MigraineForm = ({ open, onClose, onSubmit }: MigraineFormProps) => {
   const [date, setDate] = useState<Dayjs | null>(dayjs());

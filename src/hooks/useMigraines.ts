@@ -14,12 +14,7 @@ import {
 import { db } from "../firebase";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
-import type { MigraineEntry } from "../interfaces/migraineEntry";
-
-interface MigraineEntryWithId extends MigraineEntry {
-  id: string;
-  createdAt?: Timestamp;
-}
+import type { MigraineEntry, MigraineEntryWithId } from "../interfaces";
 
 export const useMigraines = () => {
   const { user } = useSelector((state: RootState) => state.auth);
