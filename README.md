@@ -69,12 +69,20 @@ Firebase - Hosting deploy as PWA
 🔄 Folder Structure 
 
 src/
+
 ├── components/
+
 ├── pages/
+
 ├── store/
+
 │   └── migraineSlice.ts
+
 ├── firebase.ts
+
 ├── hooks/
+
 ├── types/
+
 ├── App.tsx
 
