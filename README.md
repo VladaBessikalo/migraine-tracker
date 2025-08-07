@@ -63,38 +63,18 @@ Redux state management for users
 Firestore - Store migraine logs per user
 Firebase - Hosting deploy as PWA
 
-
 🚀  Firebase Hosting + PWA
 
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-npm run build
-firebase deploy
-🔄 Folder Structure Suggestion
+
+🔄 Folder Structure 
 
 src/
-
 ├── components/
-
 ├── pages/
-
 ├── store/
-
 │   └── migraineSlice.ts
-
 ├── firebase.ts
-
 ├── hooks/
-
 ├── types/
-
 ├── App.tsx
-
-
-Auth (sign in/out, session)	
-Firestore per-user data	
-Sync Redux with Firestore	
-Protected routes	
-Firebase hosting 
 
